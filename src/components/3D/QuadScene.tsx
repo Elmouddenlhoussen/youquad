@@ -1,8 +1,5 @@
 
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { QuadModel } from './QuadModel';
+import React from 'react';
 import { useTheme } from '@/hooks/useTheme';
 
 interface QuadSceneProps {
@@ -13,40 +10,30 @@ const QuadScene: React.FC<QuadSceneProps> = ({ className }) => {
   const { theme } = useTheme();
   
   return (
-    <div className={`w-full h-[400px] ${className}`}>
-      <Canvas camera={{ position: [4, 4, 4], fov: 50 }}>
-        <color attach="background" args={[theme === 'dark' ? '#1c1917' : '#f8f8f8']} />
+    <div className={`w-full h-[400px] ${className} flex items-center justify-center`}>
+      <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+        <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-sand-800' : 'bg-sand-100'}`}></div>
         
-        <Suspense fallback={null}>
-          <QuadModel scale={1.5} />
-          
-          {/* Basic lighting setup */}
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <directionalLight position={[-10, -10, -5]} intensity={0.5} />
-          
-          {/* Ground plane */}
-          <mesh 
-            rotation={[-Math.PI / 2, 0, 0]} 
-            position={[0, -1.4, 0]} 
-          >
-            <planeGeometry args={[10, 10]} />
-            <meshStandardMaterial color="#f0f0f0" opacity={0.5} transparent />
-          </mesh>
-          
-          {/* Basic controls */}
-          <OrbitControls 
-            enablePan={false} 
-            minPolarAngle={Math.PI / 6}
-            maxPolarAngle={Math.PI / 2}
-            minDistance={3}
-            maxDistance={8}
-          />
-        </Suspense>
-      </Canvas>
+        {/* Static quad bike image */}
+        <div className="relative z-10 w-3/4 h-3/4 flex items-center justify-center">
+          <div className="p-8 border-4 border-terracotta-500 rounded-lg text-center">
+            <div className="w-full h-48 mb-4 bg-terracotta-500 rounded-md flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 17.5V10a1 1 0 011-1h2a1 1 0 011 1v7.5" />
+              </svg>
+            </div>
+            <p className="text-lg font-bold text-terracotta-600 dark:text-terracotta-400">Quad Bike Model</p>
+            <p className="mt-2 text-sm text-sand-500 dark:text-sand-400">
+              Premium Quad Experience
+            </p>
+          </div>
+        </div>
+      </div>
       
-      <p className="mt-2 text-center text-sm text-sand-500 dark:text-sand-400">
-        Drag to rotate • Scroll to zoom
+      <p className="absolute bottom-2 left-0 right-0 text-center text-sm text-sand-500 dark:text-sand-400">
+        Experience our premium quads
       </p>
     </div>
   );

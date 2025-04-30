@@ -21,7 +21,7 @@ const Index = () => {
       <Hero />
       <Features />
       
-      {/* 3D Quad Bike Model Section */}
+      {/* Quad Bike Showcase Section (replaced 3D with static) */}
       <motion.section 
         className="section-padding bg-gradient-to-b from-white to-sand-100 dark:from-sand-900 dark:to-sand-800"
         initial={{ opacity: 0 }}
@@ -30,14 +30,11 @@ const Index = () => {
       >
         <div className="container-custom">
           <div className="flex flex-col items-center justify-center">
-            <h2 className="heading-md text-center mb-2">Experience Our Quads in 3D</h2>
+            <h2 className="heading-md text-center mb-2">Experience Our Premium Quads</h2>
             <p className="text-center text-sand-600 dark:text-sand-300 mb-6">
-              Interact with our premium quad bikes - rotate, zoom in, and explore the details
+              Our selection of high-quality quad bikes for your adventure
             </p>
             <QuadScene className="rounded-xl shadow-xl overflow-hidden" />
-            <p className="mt-4 text-sm text-sand-500 dark:text-sand-400">
-              Drag to rotate • Scroll to zoom
-            </p>
           </div>
         </div>
       </motion.section>
