@@ -7,6 +7,7 @@ import {
   DropdownMenuContent, 
   DropdownMenuItem
 } from '@/components/ui/dropdown-menu';
+import { useTheme } from '@/hooks/useTheme';
 
 const languages = [
   { code: 'en', name: 'English' },
@@ -16,6 +17,7 @@ const languages = [
 
 const LanguageSwitcher: React.FC = () => {
   const [currentLang, setCurrentLang] = useState('en');
+  const { theme } = useTheme();
 
   const handleLanguageChange = (langCode: string) => {
     setCurrentLang(langCode);
@@ -36,16 +38,19 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="p-2 flex items-center text-sand-800 hover:text-terracotta-600" aria-label="Switch language">
+        <button 
+          className={`p-2 flex items-center ${theme === 'dark' ? 'text-sand-100 hover:text-terracotta-300' : 'text-sand-800 hover:text-terracotta-600'}`}
+          aria-label="Switch language"
+        >
           <Globe size={20} />
           <span className="ml-1.5 hidden md:inline">{currentLang.toUpperCase()}</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className={theme === 'dark' ? 'bg-sand-800 border-sand-700 text-sand-100' : ''}>
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            className={`${language.rtl ? 'text-right' : ''} ${currentLang === language.code ? 'bg-sand-100' : ''}`}
+            className={`${language.rtl ? 'text-right' : ''} ${currentLang === language.code ? (theme === 'dark' ? 'bg-sand-700' : 'bg-sand-100') : ''}`}
             onClick={() => handleLanguageChange(language.code)}
           >
             {language.name}
