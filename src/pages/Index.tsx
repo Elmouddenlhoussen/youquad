@@ -34,9 +34,9 @@ const Index = () => {
             <p className="text-center text-sand-600 dark:text-sand-300 mb-6">
               Interact with our premium quad bikes - rotate, zoom in, and explore the details
             </p>
-            <QuadScene className="rounded-xl shadow-xl moroccan-border" />
+            <QuadScene className="rounded-xl shadow-xl overflow-hidden" />
             <p className="mt-4 text-sm text-sand-500 dark:text-sand-400">
-              Drag to rotate • Scroll to zoom • Pinch to pan
+              Drag to rotate • Scroll to zoom
             </p>
           </div>
         </div>

@@ -34,11 +34,11 @@ const QuadScene: React.FC<QuadSceneProps> = ({ className }) => {
             <meshStandardMaterial color="#f0f0f0" opacity={0.5} transparent />
           </mesh>
           
-          {/* Simple controls */}
+          {/* Basic controls */}
           <OrbitControls 
             enablePan={false} 
-            maxPolarAngle={Math.PI / 2} 
             minPolarAngle={Math.PI / 6}
+            maxPolarAngle={Math.PI / 2}
             minDistance={3}
             maxDistance={8}
           />

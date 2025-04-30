@@ -1,9 +1,10 @@
 
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { Vector3 } from 'three';
+import type * as THREE from 'three';
 
-// Simple quad bike model
+// Simplified quad bike model
 export function QuadModel(props: any) {
   const group = useRef<THREE.Group>(null!);
   
@@ -14,11 +15,7 @@ export function QuadModel(props: any) {
       group.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.05;
       
       // Subtle rotation
-      const targetRotationY = (state.mouse.x * Math.PI) / 8;
-      const targetRotationX = (state.mouse.y * Math.PI) / 16;
-      
-      group.current.rotation.y += (targetRotationY - group.current.rotation.y) * 0.05;
-      group.current.rotation.x += (targetRotationX - group.current.rotation.x) * 0.05;
+      group.current.rotation.y += 0.005;
     }
   });
 
@@ -44,13 +41,21 @@ export function QuadModel(props: any) {
       <mesh position={[0, 0.7, -0.8]}>
         <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
         <meshStandardMaterial color="#666" metalness={0.8} />
-        <mesh position={[0.5, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <mesh position={[0.5, 0, 0]}>
           <cylinderGeometry args={[0.05, 0.05, 0.4, 16]} />
           <meshStandardMaterial color="#666" metalness={0.8} />
+          <mesh rotation={[0, 0, Math.PI / 2]} position={[0.2, 0, 0]}>
+            <cylinderGeometry args={[0.05, 0.05, 0.4, 16]} />
+            <meshStandardMaterial color="#666" metalness={0.8} />
+          </mesh>
         </mesh>
-        <mesh position={[-0.5, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <mesh position={[-0.5, 0, 0]}>
           <cylinderGeometry args={[0.05, 0.05, 0.4, 16]} />
           <meshStandardMaterial color="#666" metalness={0.8} />
+          <mesh rotation={[0, 0, -Math.PI / 2]} position={[-0.2, 0, 0]}>
+            <cylinderGeometry args={[0.05, 0.05, 0.4, 16]} />
+            <meshStandardMaterial color="#666" metalness={0.8} />
+          </mesh>
         </mesh>
       </mesh>
       
@@ -61,22 +66,30 @@ export function QuadModel(props: any) {
       </mesh>
       
       {/* Wheels */}
-      <mesh position={[0.7, 0.3, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
-        <meshStandardMaterial color="#333" roughness={0.8} />
-      </mesh>
-      <mesh position={[-0.7, 0.3, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
-        <meshStandardMaterial color="#333" roughness={0.8} />
-      </mesh>
-      <mesh position={[0.7, 0.3, -0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
-        <meshStandardMaterial color="#333" roughness={0.8} />
-      </mesh>
-      <mesh position={[-0.7, 0.3, -0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
-        <meshStandardMaterial color="#333" roughness={0.8} />
-      </mesh>
+      <group position={[0.7, 0.3, 0.7]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
+          <meshStandardMaterial color="#333" roughness={0.8} />
+        </mesh>
+      </group>
+      <group position={[-0.7, 0.3, 0.7]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
+          <meshStandardMaterial color="#333" roughness={0.8} />
+        </mesh>
+      </group>
+      <group position={[0.7, 0.3, -0.7]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
+          <meshStandardMaterial color="#333" roughness={0.8} />
+        </mesh>
+      </group>
+      <group position={[-0.7, 0.3, -0.7]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
+          <meshStandardMaterial color="#333" roughness={0.8} />
+        </mesh>
+      </group>
     </group>
   );
 }
