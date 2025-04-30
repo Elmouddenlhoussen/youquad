@@ -1,7 +1,6 @@
 
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Simple quad bike model
@@ -61,21 +60,21 @@ export function QuadModel(props: any) {
         <meshStandardMaterial color="#FFF" emissive="#FFFF80" emissiveIntensity={0.5} />
       </mesh>
       
-      {/* Wheels */}
-      <mesh position={[0.7, 0.3, 0.7]} castShadow>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+      {/* Wheels - Fixed: removed rotation from cylinderGeometry and added it to mesh instead */}
+      <mesh position={[0.7, 0.3, 0.7]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
         <meshStandardMaterial color="#333" roughness={0.8} />
       </mesh>
-      <mesh position={[-0.7, 0.3, 0.7]} castShadow>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+      <mesh position={[-0.7, 0.3, 0.7]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
         <meshStandardMaterial color="#333" roughness={0.8} />
       </mesh>
-      <mesh position={[0.7, 0.3, -0.7]} castShadow>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+      <mesh position={[0.7, 0.3, -0.7]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
         <meshStandardMaterial color="#333" roughness={0.8} />
       </mesh>
-      <mesh position={[-0.7, 0.3, -0.7]} castShadow>
-        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+      <mesh position={[-0.7, 0.3, -0.7]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.3, 0.2, 32]} />
         <meshStandardMaterial color="#333" roughness={0.8} />
       </mesh>
     </group>

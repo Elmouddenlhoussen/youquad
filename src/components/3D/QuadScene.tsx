@@ -1,7 +1,7 @@
 
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PresentationControls, Environment, ContactShadows } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { QuadModel } from './QuadModel';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -14,27 +14,46 @@ const QuadScene: React.FC<QuadSceneProps> = ({ className }) => {
   
   return (
     <div className={`w-full h-[400px] ${className}`}>
-      <Canvas shadows dpr={[1, 2]} camera={{ position: [4, 4, 4], fov: 50 }}>
+      <Canvas shadows camera={{ position: [4, 4, 4], fov: 50 }}>
         <color attach="background" args={[theme === 'dark' ? '#1c1917' : '#f8f8f8']} />
         
-        <PresentationControls
-          global
-          zoom={0.8}
-          rotation={[0, -Math.PI / 4, 0]}
-          polar={[-Math.PI / 4, Math.PI / 4]}
-          azimuth={[-Math.PI / 4, Math.PI / 4]}
-        >
-          <Suspense fallback={null}>
-            <QuadModel scale={1.5} />
-            <Environment preset="sunset" />
-          </Suspense>
-        </PresentationControls>
-        
-        <ContactShadows position={[0, -1.4, 0]} opacity={0.75} scale={10} blur={2.5} far={4} />
-        
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+        {/* Replaced PresentationControls with simple rotation and OrbitControls */}
+        <Suspense fallback={null}>
+          <QuadModel scale={1.5} />
+          {/* Removed Environment which was causing compatibility issues */}
+          
+          {/* Simple environment lighting */}
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+          <directionalLight position={[-10, -10, -5]} intensity={0.5} />
+          
+          {/* Ground plane with shadow */}
+          <mesh 
+            rotation={[-Math.PI / 2, 0, 0]} 
+            position={[0, -1.4, 0]} 
+            receiveShadow
+          >
+            <planeGeometry args={[10, 10]} />
+            <shadowMaterial opacity={0.2} />
+          </mesh>
+          
+          {/* Add OrbitControls for interaction */}
+          <OrbitControls 
+            enablePan={false} 
+            maxPolarAngle={Math.PI / 2} 
+            minPolarAngle={Math.PI / 6}
+            enableZoom={true}
+            enableRotate={true}
+            minDistance={3}
+            maxDistance={8}
+          />
+        </Suspense>
       </Canvas>
+      
+      {/* Instructions for users */}
+      <p className="mt-2 text-center text-sm text-sand-500 dark:text-sand-400">
+        Drag to rotate • Scroll to zoom
+      </p>
     </div>
   );
 };
