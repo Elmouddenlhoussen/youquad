@@ -31,20 +31,19 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false }) => 
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       <motion.div 
-        className={`${logoSize} relative overflow-hidden rounded-lg shadow-md`}
+        className={`${logoSize} relative overflow-hidden rounded-lg`}
         animate={{ rotate: isHovering ? [0, -5, 5, -5, 5, 0] : 0 }}
         transition={{ duration: 0.5 }}
       >
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
-          {/* Background with enhanced gradient */}
+          {/* Desert background with gradient */}
           <defs>
             <linearGradient id="desertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor={theme === 'dark' ? '#DE6547' : '#eb8a72'} />
-              <stop offset="50%" stopColor={theme === 'dark' ? '#C55236' : '#e17a5f'} />
               <stop offset="100%" stopColor={theme === 'dark' ? '#A93E2A' : '#DE6547'} />
             </linearGradient>
             
-            {/* Sand dune effect */}
+            {/* Sand dune pattern */}
             <pattern id="sandPattern" patternUnits="userSpaceOnUse" width="100" height="100">
               <path d="M0 70 Q25 55 50 70 Q75 85 100 70 L100 100 L0 100 Z" 
                 fill={theme === 'dark' ? '#B54E37' : '#e9a48d'} 
@@ -52,36 +51,82 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false }) => 
             </pattern>
           </defs>
           
-          {/* Desert background with sand pattern */}
+          {/* Background */}
           <rect width="100" height="100" fill="url(#desertGradient)" />
           <rect width="100" height="100" fill="url(#sandPattern)" />
           
-          {/* Stylized "Q" for quad with animation */}
-          <motion.path 
-            d="M30 30 L30 70 L70 70 L70 30 Z M70 70 L85 85" 
-            stroke={theme === 'dark' ? '#FFF' : '#FFF'} 
-            strokeWidth="8" 
-            fill="none" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: isHovering ? [1, 0.9, 1] : 1 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-          />
-          
-          {/* Animated wheel tracks */}
-          <motion.path 
-            d="M20 50 C30 30, 70 30, 80 50" 
-            stroke={theme === 'dark' ? '#FFF' : '#FFF'} 
-            strokeWidth="4" 
-            fill="none"
-            strokeDasharray="6,4" 
-            opacity={isHovering ? "0.9" : "0.7"}
-            animate={{ y: isHovering ? [0, 2, 0] : 0 }}
-            transition={{ duration: 1, repeat: isHovering ? Infinity : 0, repeatType: "reverse" }}
-          />
+          {/* Quad Bike Silhouette */}
+          <g>
+            {/* Quad body */}
+            <motion.path 
+              d="M25 55 L35 55 L40 45 L60 45 L65 55 L75 55 L75 65 L25 65 Z" 
+              fill={theme === 'dark' ? '#222' : '#444'}
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: isHovering ? [1, 0.95, 1] : 1 }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+            />
+            
+            {/* Wheels */}
+            <motion.circle cx="30" cy="70" r="10" fill={theme === 'dark' ? '#333' : '#555'} stroke="white" strokeWidth="2"
+              animate={{ y: isHovering ? [0, -1, 0, 1, 0] : 0 }}
+              transition={{ duration: 0.5, repeat: isHovering ? Infinity : 0, repeatType: "reverse" }}
+            />
+            <motion.circle cx="70" cy="70" r="10" fill={theme === 'dark' ? '#333' : '#555'} stroke="white" strokeWidth="2"
+              animate={{ y: isHovering ? [0, 1, 0, -1, 0] : 0 }}
+              transition={{ duration: 0.5, repeat: isHovering ? Infinity : 0, repeatType: "reverse", delay: 0.1 }}
+            />
+            
+            {/* Handlebars */}
+            <motion.path 
+              d="M40 40 L50 35 L60 40" 
+              stroke="white" 
+              strokeWidth="2.5" 
+              fill="none"
+              strokeLinecap="round"
+              animate={{ y: isHovering ? [0, -2, 0] : 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            
+            {/* Seat */}
+            <motion.rect x="45" y="45" width="10" height="15" fill={theme === 'dark' ? '#444' : '#666'} rx="2"
+              animate={{ y: isHovering ? [0, -1.5, 0] : 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            
+            {/* Headlight */}
+            <motion.circle 
+              cx="50" 
+              cy="35" 
+              r="3" 
+              fill="yellow" 
+              animate={{ 
+                opacity: isHovering ? [1, 0.7, 1] : 1,
+                r: isHovering ? [3, 3.5, 3] : 3
+              }}
+              transition={{ duration: 0.5, repeat: isHovering ? Infinity : 0, repeatType: "reverse" }}
+            />
+            
+            {/* Dust trail when hovering */}
+            {isHovering && (
+              <g>
+                <motion.circle cx="20" cy="73" r="2" fill="white" opacity="0.7"
+                  animate={{ x: [-5, -15], opacity: [0.7, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                <motion.circle cx="15" cy="70" r="1.5" fill="white" opacity="0.5"
+                  animate={{ x: [-5, -10], opacity: [0.5, 0] }}
+                  transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                />
+                <motion.circle cx="18" cy="75" r="1" fill="white" opacity="0.3"
+                  animate={{ x: [-3, -8], opacity: [0.3, 0] }}
+                  transition={{ duration: 0.7, repeat: Infinity, delay: 0.5 }}
+                />
+              </g>
+            )}
+          </g>
         </svg>
       </motion.div>
+      
       <motion.span 
         className={`${textSize} font-bold ${theme === 'dark' ? 'text-white' : 'text-sand-800'} font-playfair`}
         animate={{ x: isHovering ? [0, 2, 0] : 0 }}
