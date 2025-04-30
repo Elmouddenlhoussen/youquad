@@ -21,7 +21,7 @@ const Index = () => {
       <Hero />
       <Features />
       
-      {/* Quad Bike Showcase Section (replaced 3D with static) */}
+      {/* Quad Bike Showcase Section with decorative background */}
       <motion.section 
         className="section-padding bg-gradient-to-b from-white to-sand-100 dark:from-sand-900 dark:to-sand-800"
         initial={{ opacity: 0 }}
