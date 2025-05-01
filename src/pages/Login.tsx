@@ -1,148 +1,318 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useUser } from '@/contexts/UserContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { user, mail, lock, userPlus } from 'lucide-react';
 
 const Login = () => {
-  return (
-    <div className="min-h-screen bg-sand-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
-        <div className="text-center">
-          <div className="flex justify-center">
-            <div className="h-12 w-12 rounded-full bg-terracotta-500"></div>
-          </div>
-          <h2 className="mt-6 text-3xl font-bold text-sand-800">Welcome to YouQuad</h2>
-          <p className="mt-2 text-sm text-sand-600">
-            Sign in to access your account and manage your bookings
-          </p>
-        </div>
+  const navigate = useNavigate();
+  const { login, register, resetPassword, isLoading } = useUser();
+  const [activeTab, setActiveTab] = useState<string>('login');
+  
+  // Form states
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [resetEmail, setResetEmail] = useState('');
+  
+  // Form errors
+  const [loginErrors, setLoginErrors] = useState<{email?: string, password?: string}>({});
+  const [registerErrors, setRegisterErrors] = useState<{name?: string, email?: string, password?: string, confirmPassword?: string}>({});
+  const [resetError, setResetError] = useState<string | null>(null);
+  
+  // Handle login form
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate form
+    const errors: {email?: string, password?: string} = {};
+    if (!loginForm.email) errors.email = 'Email is required';
+    if (!loginForm.password) errors.password = 'Password is required';
+    
+    if (Object.keys(errors).length > 0) {
+      setLoginErrors(errors);
+      return;
+    }
+    
+    setLoginErrors({});
+    const success = await login(loginForm.email, loginForm.password);
+    if (success) {
+      navigate('/profile');
+    }
+  };
+  
+  // Handle register form
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate form
+    const errors: {name?: string, email?: string, password?: string, confirmPassword?: string} = {};
+    if (!registerForm.name) errors.name = 'Name is required';
+    if (!registerForm.email) errors.email = 'Email is required';
+    if (!registerForm.password) errors.password = 'Password is required';
+    if (registerForm.password.length < 8) errors.password = 'Password must be at least 8 characters';
+    if (!registerForm.confirmPassword) errors.confirmPassword = 'Please confirm your password';
+    if (registerForm.password !== registerForm.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setRegisterErrors(errors);
+      return;
+    }
+    
+    setRegisterErrors({});
+    const success = await register(registerForm.name, registerForm.email, registerForm.password);
+    if (success) {
+      setActiveTab('login');
+    }
+  };
+  
+  // Handle password reset
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!resetEmail) {
+      setResetError('Email is required');
+      return;
+    }
+    
+    setResetError(null);
+    await resetPassword(resetEmail);
+  };
 
-        <Tabs defaultValue="login" className="w-full">
-          <TabsList className="grid grid-cols-2">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="register">Register</TabsTrigger>
+  return (
+    <div className="container-custom py-12 min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="login" className="text-lg py-3">Login</TabsTrigger>
+            <TabsTrigger value="register" className="text-lg py-3">Register</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="login" className="space-y-6 pt-6">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="john.doe@example.com" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link to="/forgot-password" className="text-sm text-terracotta-600 hover:text-terracotta-700">
-                    Forgot password?
-                  </Link>
-                </div>
-                <Input id="password" type="password" />
-              </div>
-              <Button className="w-full bg-terracotta-600 hover:bg-terracotta-700">
-                Sign In
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-sand-500">Or continue with</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5 mr-2">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-                Google
-              </Button>
-              <Button variant="outline" className="w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5 mr-2 text-blue-600 fill-current">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                Facebook
-              </Button>
-            </div>
+          <TabsContent value="login">
+            <Card className="border-sand-200 dark:border-sand-700">
+              <CardHeader>
+                <CardTitle className="text-2xl">Welcome back</CardTitle>
+                <CardDescription>Enter your credentials to access your account</CardDescription>
+              </CardHeader>
+              
+              <CardContent>
+                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <div className="relative">
+                      <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={loginForm.email}
+                        onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
+                        className={`pl-10 ${loginErrors.email ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {loginErrors.email && <p className="text-sm text-red-500">{loginErrors.email}</p>}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <Label htmlFor="password">Password</Label>
+                      <button 
+                        type="button" 
+                        onClick={() => setActiveTab('reset')}
+                        className="text-sm text-terracotta-500 hover:underline"
+                      >
+                        Forgot password?
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="password"
+                        type="password"
+                        placeholder="••••••••"
+                        value={loginForm.password}
+                        onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
+                        className={`pl-10 ${loginErrors.password ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {loginErrors.password && <p className="text-sm text-red-500">{loginErrors.password}</p>}
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-terracotta-600 hover:bg-terracotta-700" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Logging in...' : 'Login'}
+                  </Button>
+                </form>
+              </CardContent>
+              
+              <CardFooter className="flex justify-center border-t border-sand-200 dark:border-sand-700 pt-4">
+                <p className="text-sm text-sand-500 dark:text-sand-400">
+                  Don't have an account?{' '}
+                  <button 
+                    onClick={() => setActiveTab('register')}
+                    className="text-terracotta-500 hover:underline"
+                  >
+                    Register
+                  </button>
+                </p>
+              </CardFooter>
+            </Card>
           </TabsContent>
           
-          <TabsContent value="register" className="space-y-6 pt-6">
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="first-name">First Name</Label>
-                  <Input id="first-name" placeholder="John" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="last-name">Last Name</Label>
-                  <Input id="last-name" placeholder="Doe" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="register-email">Email</Label>
-                <Input id="register-email" type="email" placeholder="john.doe@example.com" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="register-password">Password</Label>
-                <Input id="register-password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirm Password</Label>
-                <Input id="confirm-password" type="password" />
-              </div>
-              <Button className="w-full bg-terracotta-600 hover:bg-terracotta-700">
-                Create Account
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-sand-500">Or continue with</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5 mr-2">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-                Google
-              </Button>
-              <Button variant="outline" className="w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5 mr-2 text-blue-600 fill-current">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                Facebook
-              </Button>
-            </div>
+          <TabsContent value="register">
+            <Card className="border-sand-200 dark:border-sand-700">
+              <CardHeader>
+                <CardTitle className="text-2xl">Create an account</CardTitle>
+                <CardDescription>Enter your details to create a new account</CardDescription>
+              </CardHeader>
+              
+              <CardContent>
+                <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="register-name">Full Name</Label>
+                    <div className="relative">
+                      <user className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="register-name"
+                        placeholder="John Doe"
+                        value={registerForm.name}
+                        onChange={(e) => setRegisterForm({...registerForm, name: e.target.value})}
+                        className={`pl-10 ${registerErrors.name ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {registerErrors.name && <p className="text-sm text-red-500">{registerErrors.name}</p>}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="register-email">Email</Label>
+                    <div className="relative">
+                      <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="register-email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={registerForm.email}
+                        onChange={(e) => setRegisterForm({...registerForm, email: e.target.value})}
+                        className={`pl-10 ${registerErrors.email ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {registerErrors.email && <p className="text-sm text-red-500">{registerErrors.email}</p>}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="register-password">Password</Label>
+                    <div className="relative">
+                      <lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="register-password"
+                        type="password"
+                        placeholder="••••••••"
+                        value={registerForm.password}
+                        onChange={(e) => setRegisterForm({...registerForm, password: e.target.value})}
+                        className={`pl-10 ${registerErrors.password ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {registerErrors.password && <p className="text-sm text-red-500">{registerErrors.password}</p>}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="register-confirm">Confirm Password</Label>
+                    <div className="relative">
+                      <lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="register-confirm"
+                        type="password"
+                        placeholder="••••••••"
+                        value={registerForm.confirmPassword}
+                        onChange={(e) => setRegisterForm({...registerForm, confirmPassword: e.target.value})}
+                        className={`pl-10 ${registerErrors.confirmPassword ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {registerErrors.confirmPassword && <p className="text-sm text-red-500">{registerErrors.confirmPassword}</p>}
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-terracotta-600 hover:bg-terracotta-700" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Creating account...' : 'Register'}
+                  </Button>
+                </form>
+              </CardContent>
+              
+              <CardFooter className="flex justify-center border-t border-sand-200 dark:border-sand-700 pt-4">
+                <p className="text-sm text-sand-500 dark:text-sand-400">
+                  Already have an account?{' '}
+                  <button 
+                    onClick={() => setActiveTab('login')}
+                    className="text-terracotta-500 hover:underline"
+                  >
+                    Login
+                  </button>
+                </p>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="reset">
+            <Card className="border-sand-200 dark:border-sand-700">
+              <CardHeader>
+                <CardTitle className="text-2xl">Reset your password</CardTitle>
+                <CardDescription>Enter your email to receive a reset link</CardDescription>
+              </CardHeader>
+              
+              <CardContent>
+                <form onSubmit={handleResetPassword} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-email">Email</Label>
+                    <div className="relative">
+                      <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Input
+                        id="reset-email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        className={`pl-10 ${resetError ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    {resetError && <p className="text-sm text-red-500">{resetError}</p>}
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-terracotta-600 hover:bg-terracotta-700" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Sending link...' : 'Send Reset Link'}
+                  </Button>
+                </form>
+              </CardContent>
+              
+              <CardFooter className="flex justify-center border-t border-sand-200 dark:border-sand-700 pt-4">
+                <p className="text-sm text-sand-500 dark:text-sand-400">
+                  Remember your password?{' '}
+                  <button 
+                    onClick={() => setActiveTab('login')}
+                    className="text-terracotta-500 hover:underline"
+                  >
+                    Back to login
+                  </button>
+                </p>
+              </CardFooter>
+            </Card>
           </TabsContent>
         </Tabs>
-        
-        <div className="text-center text-sm mt-6 text-sand-600">
-          By signing in or creating an account, you agree to our{" "}
-          <Link to="/terms" className="text-terracotta-600 hover:text-terracotta-700">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link to="/privacy" className="text-terracotta-600 hover:text-terracotta-700">
-            Privacy Policy
-          </Link>
-        </div>
       </div>
     </div>
   );

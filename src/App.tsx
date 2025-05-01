@@ -23,6 +23,7 @@ import Blog from "./pages/Blog"; // New blog page
 import UserProfile from "./pages/UserProfile"; // New user profile page
 import PaymentSuccess from "./pages/PaymentSuccess"; // New payment success page
 import { ThemeProvider } from "./hooks/useTheme";
+import { UserProvider } from "./contexts/UserContext";
 
 const queryClient = new QueryClient();
 
@@ -33,27 +34,29 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/quads" element={<Quads />} />
-              <Route path="/quad/:id" element={<QuadDetail />} />
-              <Route path="/quad-comparison" element={<QuadComparison />} />
-              <Route path="/tours" element={<Tours />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/enhanced-about" element={<EnhancedAbout />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/booking" element={<Booking />} />
-              <Route path="/enhanced-booking" element={<EnhancedBooking />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
+          <UserProvider>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/quads" element={<Quads />} />
+                <Route path="/quad/:id" element={<QuadDetail />} />
+                <Route path="/quad-comparison" element={<QuadComparison />} />
+                <Route path="/tours" element={<Tours />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/enhanced-about" element={<EnhancedAbout />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/enhanced-booking" element={<EnhancedBooking />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/profile" element={<UserProfile />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          </UserProvider>
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
