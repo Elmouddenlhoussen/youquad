@@ -21,6 +21,7 @@ import Gallery from "./pages/Gallery"; // New gallery page
 import FAQ from "./pages/FAQ"; // New FAQ page
 import Blog from "./pages/Blog"; // New blog page
 import UserProfile from "./pages/UserProfile"; // New user profile page
+import PaymentSuccess from "./pages/PaymentSuccess"; // New payment success page
 import { ThemeProvider } from "./hooks/useTheme";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/booking" element={<Booking />} />
               <Route path="/enhanced-booking" element={<EnhancedBooking />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/login" element={<Login />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/faq" element={<FAQ />} />
