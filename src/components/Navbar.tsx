@@ -72,15 +72,25 @@ const Navbar: React.FC = () => {
     return location.pathname === path;
   };
 
+  // Updated nav links including new pages
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/quads', label: 'Quads' },
-    { path: '/tours', label: 'Tours' },
     { 
-      label: 'About', 
+      label: 'Quads', 
       children: [
-        { path: '/about', label: 'About Us' },
+        { path: '/quads', label: 'Browse Quads' },
+        { path: '/quad-comparison', label: 'Compare Quads' }
+      ]
+    },
+    { path: '/tours', label: 'Tours' },
+    { path: '/gallery', label: 'Gallery' },
+    { path: '/blog', label: 'Blog' },
+    { 
+      label: 'Info', 
+      children: [
+        { path: '/enhanced-about', label: 'About Us' },
         { path: '/contact', label: 'Contact' },
+        { path: '/faq', label: 'FAQ' },
       ]
     },
   ];
@@ -173,7 +183,7 @@ const Navbar: React.FC = () => {
         <div className="hidden md:flex items-center space-x-4">
           <ThemeToggle />
           <LanguageSwitcher />
-          <Link to="/login">
+          <Link to="/profile">
             <Button 
               variant="outline" 
               className={`transition-all duration-300 ${theme === 'dark' 
@@ -181,10 +191,10 @@ const Navbar: React.FC = () => {
                 : "border-terracotta-500 text-terracotta-500 hover:bg-terracotta-50"
               }`}
             >
-              Login
+              My Account
             </Button>
           </Link>
-          <Link to="/booking">
+          <Link to="/enhanced-booking">
             <Button 
               className={`relative overflow-hidden group transition-all duration-300 ${theme === 'dark' 
                 ? "bg-terracotta-500 text-white hover:bg-terracotta-600" 
@@ -267,7 +277,7 @@ const Navbar: React.FC = () => {
               )}
 
               <motion.div className="flex flex-col space-y-2 pt-2" variants={itemVariants}>
-                <Link to="/login">
+                <Link to="/profile">
                   <Button 
                     variant="outline" 
                     className={`w-full ${theme === 'dark' 
@@ -275,10 +285,10 @@ const Navbar: React.FC = () => {
                       : "border-terracotta-500 text-terracotta-500 hover:bg-terracotta-50"
                     }`}
                   >
-                    Login
+                    My Account
                   </Button>
                 </Link>
-                <Link to="/booking">
+                <Link to="/enhanced-booking">
                   <Button className="w-full bg-terracotta-500 text-white hover:bg-terracotta-600">
                     Book Now
                   </Button>
