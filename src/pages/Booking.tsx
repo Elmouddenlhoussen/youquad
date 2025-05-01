@@ -30,6 +30,11 @@ import { quads, tourPackages } from '@/data/quads';
 
 const Booking = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = React.useState<string>("09:00");
+  const [selectedDuration, setSelectedDuration] = React.useState<string>("1");
+  const [selectedRiders, setSelectedRiders] = React.useState<string>("1");
+  const [selectedTourTime, setSelectedTourTime] = React.useState<string>("08:00");
+  const [selectedParticipants, setSelectedParticipants] = React.useState<string>("1");
 
   return (
     <div className="min-h-screen bg-sand-50">
@@ -98,7 +103,7 @@ const Booking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="time">Starting Time</Label>
-                      <Select>
+                      <Select value={selectedTime} onValueChange={setSelectedTime}>
                         <SelectTrigger id="time">
                           <SelectValue placeholder="Select time" />
                         </SelectTrigger>
@@ -117,7 +122,7 @@ const Booking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="duration">Duration</Label>
-                      <Select>
+                      <Select value={selectedDuration} onValueChange={setSelectedDuration}>
                         <SelectTrigger id="duration">
                           <SelectValue placeholder="Select duration" />
                         </SelectTrigger>
@@ -133,7 +138,7 @@ const Booking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="riders">Number of Riders</Label>
-                      <Select>
+                      <Select value={selectedRiders} onValueChange={setSelectedRiders}>
                         <SelectTrigger id="riders">
                           <SelectValue placeholder="Select number of riders" />
                         </SelectTrigger>
@@ -143,7 +148,7 @@ const Booking = () => {
                           <SelectItem value="3">3 Riders</SelectItem>
                           <SelectItem value="4">4 Riders</SelectItem>
                           <SelectItem value="5">5 Riders</SelectItem>
-                          <SelectItem value="6+">6+ Riders (Group)</SelectItem>
+                          <SelectItem value="6">6+ Riders (Group)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -360,7 +365,7 @@ const Booking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="tour-time">Starting Time</Label>
-                      <Select>
+                      <Select value={selectedTourTime} onValueChange={setSelectedTourTime}>
                         <SelectTrigger id="tour-time">
                           <SelectValue placeholder="Select time" />
                         </SelectTrigger>
@@ -374,7 +379,7 @@ const Booking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="tour-participants">Number of Participants</Label>
-                      <Select>
+                      <Select value={selectedParticipants} onValueChange={setSelectedParticipants}>
                         <SelectTrigger id="tour-participants">
                           <SelectValue placeholder="Select number of participants" />
                         </SelectTrigger>
@@ -384,7 +389,7 @@ const Booking = () => {
                           <SelectItem value="3">3 People</SelectItem>
                           <SelectItem value="4">4 People</SelectItem>
                           <SelectItem value="5">5 People</SelectItem>
-                          <SelectItem value="6+">6+ People (Group Rate)</SelectItem>
+                          <SelectItem value="6">6+ People (Group Rate)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

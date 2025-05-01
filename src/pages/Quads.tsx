@@ -16,9 +16,9 @@ import { Label } from '@/components/ui/label';
 const Quads = () => {
   const [filters, setFilters] = useState({
     search: '',
-    type: '',
+    type: 'all',
     maxPrice: 1000,
-    capacity: '',
+    capacity: 'any',
   });
 
   // Filter quads based on user selection
@@ -27,9 +27,9 @@ const Quads = () => {
       (filters.search === '' || 
         quad.name.toLowerCase().includes(filters.search.toLowerCase()) ||
         quad.description.toLowerCase().includes(filters.search.toLowerCase())) &&
-      (filters.type === '' || quad.type === filters.type) &&
+      (filters.type === 'all' || quad.type === filters.type) &&
       quad.price <= filters.maxPrice &&
-      (filters.capacity === '' || quad.capacity.toString() === filters.capacity)
+      (filters.capacity === 'any' || quad.capacity.toString() === filters.capacity)
     );
   });
 
@@ -96,7 +96,7 @@ const Quads = () => {
                     <SelectValue placeholder="All Types" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Types</SelectItem>
+                    <SelectItem value="all">All Types</SelectItem>
                     {quadTypes.map((type) => (
                       <SelectItem key={type} value={type}>{type}</SelectItem>
                     ))}
@@ -133,7 +133,7 @@ const Quads = () => {
                     <SelectValue placeholder="Any Capacity" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any Capacity</SelectItem>
+                    <SelectItem value="any">Any Capacity</SelectItem>
                     {capacities.map((capacity) => (
                       <SelectItem key={capacity} value={capacity.toString()}>
                         {capacity} rider{capacity > 1 ? 's' : ''}
