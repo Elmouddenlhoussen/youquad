@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -252,7 +251,7 @@ const Gallery = () => {
 
       {/* Lightbox modal for clicked images */}
       <Dialog open={!!selectedImage} onOpenChange={() => handleClose()}>
-        <DialogContent className="max-w-5xl p-0 bg-transparent border-0" hideClose>
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-0">
           <div className="relative bg-black/95 rounded-lg overflow-hidden">
             <Button 
               variant="ghost" 

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Clock, CheckCircle, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Add this missing import
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
