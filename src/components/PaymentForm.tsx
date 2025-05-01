@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   PaymentMethod, 
@@ -7,7 +6,7 @@ import {
   validateCardCvc,
   formatCurrency 
 } from '@/services/paymentService';
-import { CreditCard, Paypal, ShoppingBag, CreditCard as CreditCardIcon } from 'lucide-react';
+import { CreditCard, ShoppingBag, CreditCard as CreditCardIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -136,7 +135,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             
             <div className={`flex flex-col items-center justify-center p-4 rounded-lg border border-sand-200 dark:border-sand-700 cursor-pointer ${paymentMethod === 'paypal' ? 'bg-terracotta-50 dark:bg-terracotta-900/30 border-terracotta-300 dark:border-terracotta-700' : ''}`}>
               <RadioGroupItem value="paypal" id="paypal" className="sr-only" />
-              <Paypal className={`w-6 h-6 mb-2 ${paymentMethod === 'paypal' ? 'text-terracotta-600 dark:text-terracotta-400' : 'text-sand-500'}`} />
+              <CreditCard className={`w-6 h-6 mb-2 ${paymentMethod === 'paypal' ? 'text-terracotta-600 dark:text-terracotta-400' : 'text-sand-500'}`} />
               <Label htmlFor="paypal" className="cursor-pointer text-sm">PayPal</Label>
             </div>
           </RadioGroup>
