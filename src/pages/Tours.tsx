@@ -4,6 +4,8 @@ import { tourPackages } from '@/data/quads';
 import { Star, Clock, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import SearchBar from '@/components/SearchBar';
+import WeatherWidget from '@/components/WeatherWidget';
 
 const Tours = () => {
   return (
@@ -18,6 +20,17 @@ const Tours = () => {
       </div>
 
       <div className="container-custom py-12">
+        {/* Search and weather section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="md:col-span-2">
+            <SearchBar placeholder="Search tours by name, difficulty, or features..." />
+          </div>
+          <div className="md:col-span-1">
+            <WeatherWidget className="h-full" />
+          </div>
+        </div>
+        
+        {/* Tour packages */}
         {tourPackages.map((tour, index) => (
           <div 
             key={tour.id} 

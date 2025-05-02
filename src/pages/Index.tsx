@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import QuadScene from '@/components/3D/QuadScene';
 import { motion } from 'framer-motion';
+import WeatherWidget from '@/components/WeatherWidget';
 
 const Index = () => {
   // Display only 3 quads on homepage
@@ -63,6 +64,32 @@ const Index = () => {
                 type={quad.type}
               />
             ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Weather Section */}
+      <section className="section-padding bg-sand-50 dark:bg-sand-900">
+        <div className="container-custom">
+          <div className="text-center mb-8">
+            <h2 className="heading-md">Desert Weather</h2>
+            <p className="text-sand-600 dark:text-sand-300">
+              Check current conditions before planning your adventure
+            </p>
+          </div>
+          <div className="max-w-xl mx-auto">
+            <WeatherWidget />
+            <div className="mt-6 text-center">
+              <p className="text-sand-600 dark:text-sand-400 mb-4">
+                Weather conditions can change quickly in the desert. We recommend checking the 
+                forecast before booking your tour.
+              </p>
+              <Link to="/tours">
+                <Button className="bg-terracotta-600 hover:bg-terracotta-700">
+                  View Tours
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

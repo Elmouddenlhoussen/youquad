@@ -1,34 +1,46 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import LanguageSwitcher from './LanguageSwitcher';
-import ThemeToggle from './ThemeToggle';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Logo from './Logo';
-import { useTheme } from '@/hooks/useTheme';
-import { motion, AnimatePresence } from 'framer-motion';
+import ThemeToggle from './ThemeToggle';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useUser } from '@/contexts/UserContext';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMobileView } from '@/hooks/use-mobile';
+import SearchBar from './SearchBar';
 
-const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { theme } = useTheme();
+const Navbar = () => {
   const location = useLocation();
+  const isMobile = useMobileView();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { user, logout } = useUser();
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  // Navbar items
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Quads', path: '/quads' },
+    { name: 'Tours', path: '/tours' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -37,268 +49,222 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
-
-  const navClass = `
-    fixed top-0 left-0 right-0 z-50 transition-all duration-300
-    ${scrolled 
-      ? theme === 'dark' 
-        ? 'bg-sand-800/95 shadow-lg backdrop-blur-sm' 
-        : 'bg-white/95 shadow-md backdrop-blur-sm' 
-      : theme === 'dark'
-        ? 'bg-sand-800/80'
-        : 'bg-white'
-    }
-  `;
-
-  const mobileMenuClass = `
-    md:hidden fixed top-[61px] left-0 right-0 z-40 overflow-hidden
-    ${theme === 'dark' ? 'bg-sand-800/95 backdrop-blur-sm border-t border-sand-700' : 'bg-white/95 backdrop-blur-sm border-t border-sand-200'}
-  `;
-
-  const activeLinkClass = theme === 'dark' 
-    ? 'text-terracotta-300' 
-    : 'text-terracotta-600';
-
-  const linkClass = `
-    relative text-sm font-medium transition-colors hover:scale-105 transform duration-150 px-2 py-1
-    ${theme === 'dark' ? 'text-sand-100 hover:text-terracotta-300' : 'text-sand-800 hover:text-terracotta-600'}
-  `;
-
+  // Check if current route is active
   const isActive = (path: string) => {
-    return location.pathname === path;
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
   };
 
-  // Updated nav links including new pages
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { 
-      label: 'Quads', 
-      children: [
-        { path: '/quads', label: 'Browse Quads' },
-        { path: '/quad-comparison', label: 'Compare Quads' }
-      ]
-    },
-    { path: '/tours', label: 'Tours' },
-    { path: '/gallery', label: 'Gallery' },
-    { path: '/blog', label: 'Blog' },
-    { 
-      label: 'Info', 
-      children: [
-        { path: '/enhanced-about', label: 'About Us' },
-        { path: '/contact', label: 'Contact' },
-        { path: '/faq', label: 'FAQ' },
-      ]
-    },
-  ];
-
-  // Animation variants
-  const mobileMenuVariants = {
-    hidden: { height: 0, opacity: 0 },
-    visible: { 
-      height: 'auto', 
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        staggerChildren: 0.1,
-        when: 'beforeChildren' 
-      }
-    },
-    exit: { 
-      height: 0, 
-      opacity: 0,
-      transition: { 
-        duration: 0.3,
-        when: 'afterChildren',
-        staggerChildren: 0.05,
-        staggerDirection: -1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 20 }
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase();
   };
 
   return (
-    <motion.nav 
-      className={navClass}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white shadow-md py-2 dark:bg-sand-800 dark:shadow-sand-900/30' 
+          : 'bg-transparent py-4'
+      }`}
     >
-      <div className="container-custom flex justify-between items-center py-3">
-        <Link to="/" className="flex items-center space-x-2 z-50">
-          <Logo showTooltip />
-        </Link>
+      <div className="container-custom">
+        <div className="flex items-center justify-between gap-4">
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link to="/" className="flex items-center">
+              <Logo className="h-10 w-auto" />
+              <span className="ml-2 text-xl font-bold text-sand-800 dark:text-sand-100">
+                YouQuad
+              </span>
+            </Link>
+          </motion.div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navLinks.map((navItem, idx) => 
-            'children' in navItem ? (
-              <DropdownMenu key={idx}>
-                <DropdownMenuTrigger className={`flex items-center space-x-1 ${linkClass}`}>
-                  <span>{navItem.label}</span>
-                  <ChevronDown className="h-4 w-4" />
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {/* Search bar in navbar for desktop - shown when clicked */}
+            {showSearchBar ? (
+              <div className="w-64 mr-2 transition-all duration-300 ease-in-out">
+                <SearchBar 
+                  compact={true} 
+                  placeholder="Search..." 
+                />
+              </div>
+            ) : null}
+
+            {/* Navigation links - shown when search bar is hidden */}
+            {!showSearchBar && navItems.map((item, i) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 * i }}
+              >
+                <Link
+                  to={item.path}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive(item.path)
+                      ? 'text-terracotta-600 dark:text-terracotta-300'
+                      : 'text-sand-600 hover:text-terracotta-600 dark:text-sand-300 dark:hover:text-terracotta-300'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
+            ))}
+            
+            {/* Search button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowSearchBar(!showSearchBar)}
+              aria-label="Toggle search"
+              className={`ml-1 px-2 text-sand-600 hover:text-terracotta-600 dark:text-sand-300 dark:hover:text-terracotta-300 ${
+                showSearchBar ? 'bg-sand-100 dark:bg-sand-700' : ''
+              }`}
+            >
+              {showSearchBar ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              )}
+            </Button>
+          </div>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center space-x-2">
+            {/* Language Switcher */}
+            <div className="hidden sm:block">
+              <LanguageSwitcher />
+            </div>
+            
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
+            {/* Mobile search trigger */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden text-sand-600 hover:text-terracotta-600 dark:text-sand-300 dark:hover:text-terracotta-300"
+              onClick={() => setShowSearchBar(!showSearchBar)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <span className="sr-only">Search</span>
+            </Button>
+            
+            {/* User Avatar or Login Button */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative p-1 rounded-full h-10 w-10">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.avatar} />
+                      <AvatarFallback className="bg-terracotta-100 text-terracotta-700 dark:bg-terracotta-900 dark:text-terracotta-300">
+                        {getInitials(user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className={theme === 'dark' ? 'bg-sand-800 border-sand-700 text-sand-100' : ''}>
-                  {navItem.children.map((child, childIdx) => (
-                    <DropdownMenuItem key={childIdx} asChild>
-                      <Link 
-                        to={child.path} 
-                        className={`w-full ${isActive(child.path) ? activeLinkClass : ''}`}
-                      >
-                        {child.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium">{user.name}</p>
+                      <p className="w-[200px] truncate text-sm text-sand-500 dark:text-sand-400">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/booking">My Bookings</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => logout()}>
+                    Log out
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link 
-                key={idx}
-                to={navItem.path} 
-                className={`${linkClass} ${isActive(navItem.path) ? activeLinkClass : ''}`}
-              >
-                <span>{navItem.label}</span>
-                {isActive(navItem.path) && (
-                  <motion.span 
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-terracotta-500"
-                    layoutId="activeNavIndicator"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </Link>
-            )
-          )}
-        </div>
-
-        <div className="hidden md:flex items-center space-x-4">
-          <ThemeToggle />
-          <LanguageSwitcher />
-          <Link to="/profile">
-            <Button 
-              variant="outline" 
-              className={`transition-all duration-300 ${theme === 'dark' 
-                ? "border-terracotta-400 text-terracotta-400 hover:bg-terracotta-900/30" 
-                : "border-terracotta-500 text-terracotta-500 hover:bg-terracotta-50"
-              }`}
-            >
-              My Account
-            </Button>
-          </Link>
-          <Link to="/enhanced-booking">
-            <Button 
-              className={`relative overflow-hidden group transition-all duration-300 ${theme === 'dark' 
-                ? "bg-terracotta-500 text-white hover:bg-terracotta-600" 
-                : "bg-terracotta-500 text-white hover:bg-terracotta-600"
-              }`}
-            >
-              <span className="relative z-10">Book Now</span>
-              <span className="absolute inset-0 bg-terracotta-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
-            </Button>
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center space-x-4">
-          <ThemeToggle />
-          <LanguageSwitcher />
-          <button 
-            onClick={() => setIsOpen(!isOpen)} 
-            className={`p-2 rounded-full ${theme === 'dark' ? 'text-sand-100 hover:bg-sand-700' : 'text-sand-800 hover:bg-sand-100'}`}
-            aria-label={isOpen ? 'Close menu' : 'Open menu'}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={isOpen ? 'close' : 'open'}
-                initial={{ opacity: 0, rotate: isOpen ? -90 : 90 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: isOpen ? 90 : -90 }}
-                transition={{ duration: 0.2 }}
-              >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-              </motion.div>
-            </AnimatePresence>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Panel */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            className={mobileMenuClass}
-            variants={mobileMenuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <div className="container-custom py-4 flex flex-col space-y-3">
-              {navLinks.map((navItem, idx) => 
-                'children' in navItem ? (
-                  <motion.div key={idx} variants={itemVariants} className="space-y-2">
-                    <p className={`${theme === 'dark' ? 'text-sand-300' : 'text-sand-500'} px-4 text-xs font-bold uppercase`}>
-                      {navItem.label}
-                    </p>
-                    <div className="space-y-1 pl-2">
-                      {navItem.children.map((child, childIdx) => (
-                        <Link 
-                          key={childIdx}
-                          to={child.path} 
-                          className={`block py-2 px-4 rounded-md ${isActive(child.path) 
-                            ? theme === 'dark' ? 'bg-sand-700 text-terracotta-300' : 'bg-sand-100 text-terracotta-600' 
-                            : theme === 'dark' ? 'hover:bg-sand-700' : 'hover:bg-sand-100'} ${linkClass}`}
+              <Button asChild variant="outline" size="sm" className="ml-2">
+                <Link to="/login">Login</Link>
+              </Button>
+            )}
+            
+            {/* Mobile Menu Trigger */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="lg:hidden"
+                  aria-label="Menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64 sm:w-80">
+                <div className="flex flex-col h-full">
+                  <div className="space-y-4 py-4">
+                    {/* Mobile search */}
+                    <div className="px-3 py-2">
+                      <SearchBar placeholder="Search..." />
+                    </div>
+                    
+                    {/* Mobile nav links */}
+                    <div className="px-3">
+                      {navItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.path}
+                          className={`flex items-center py-2 px-3 rounded-md transition-colors ${
+                            isActive(item.path)
+                              ? 'bg-sand-100 text-terracotta-600 dark:bg-sand-700 dark:text-terracotta-300'
+                              : 'text-sand-600 hover:bg-sand-100 dark:text-sand-300 dark:hover:bg-sand-700'
+                          }`}
                         >
-                          {child.label}
+                          {item.name}
                         </Link>
                       ))}
                     </div>
-                  </motion.div>
-                ) : (
-                  <motion.div key={idx} variants={itemVariants}>
-                    <Link 
-                      to={navItem.path} 
-                      className={`block py-2 px-4 rounded-md ${isActive(navItem.path) 
-                        ? theme === 'dark' ? 'bg-sand-700 text-terracotta-300' : 'bg-sand-100 text-terracotta-600' 
-                        : theme === 'dark' ? 'hover:bg-sand-700' : 'hover:bg-sand-100'} ${linkClass}`}
-                    >
-                      {navItem.label}
-                    </Link>
-                  </motion.div>
-                )
-              )}
-
-              <motion.div className="flex flex-col space-y-2 pt-2" variants={itemVariants}>
-                <Link to="/profile">
-                  <Button 
-                    variant="outline" 
-                    className={`w-full ${theme === 'dark' 
-                      ? "border-terracotta-400 text-terracotta-400 hover:bg-terracotta-900/30" 
-                      : "border-terracotta-500 text-terracotta-500 hover:bg-terracotta-50"
-                    }`}
-                  >
-                    My Account
-                  </Button>
-                </Link>
-                <Link to="/enhanced-booking">
-                  <Button className="w-full bg-terracotta-500 text-white hover:bg-terracotta-600">
-                    Book Now
-                  </Button>
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
+                    
+                    <div className="border-t border-sand-200 dark:border-sand-700"></div>
+                    
+                    {/* Language switcher in mobile menu */}
+                    <div className="px-6 py-2">
+                      <p className="text-sm font-medium text-sand-500 dark:text-sand-400 mb-2">
+                        Language
+                      </p>
+                      <LanguageSwitcher />
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+        
+        {/* Mobile Search Bar (shown when triggered) */}
+        {showSearchBar && isMobile && (
+          <div className="pt-3 pb-2 px-2 lg:hidden">
+            <SearchBar placeholder="Search..." />
+          </div>
         )}
-      </AnimatePresence>
-    </motion.nav>
+      </div>
+    </header>
   );
 };
 

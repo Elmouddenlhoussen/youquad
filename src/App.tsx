@@ -8,22 +8,24 @@ import Layout from './components/Layout';
 import Index from "./pages/Index";
 import Quads from "./pages/Quads";
 import QuadDetail from "./pages/QuadDetail";
-import QuadComparison from "./pages/QuadComparison"; // New page
+import QuadComparison from "./pages/QuadComparison";
 import Tours from "./pages/Tours";
 import About from "./pages/About";
-import EnhancedAbout from "./pages/EnhancedAbout"; // Enhanced about page
+import EnhancedAbout from "./pages/EnhancedAbout";
 import Contact from "./pages/Contact";
 import Booking from "./pages/Booking";
-import EnhancedBooking from "./pages/EnhancedBooking"; // Enhanced booking page
+import EnhancedBooking from "./pages/EnhancedBooking";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import Gallery from "./pages/Gallery"; // New gallery page
-import FAQ from "./pages/FAQ"; // New FAQ page
-import Blog from "./pages/Blog"; // New blog page
-import UserProfile from "./pages/UserProfile"; // New user profile page
-import PaymentSuccess from "./pages/PaymentSuccess"; // New payment success page
+import Gallery from "./pages/Gallery";
+import FAQ from "./pages/FAQ";
+import Blog from "./pages/Blog";
+import UserProfile from "./pages/UserProfile";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import Search from "./pages/Search"; // New search page
 import { ThemeProvider } from "./hooks/useTheme";
 import { UserProvider } from "./contexts/UserContext";
+import AuthGuard from "./components/AuthGuard";
 
 const queryClient = new QueryClient();
 
@@ -52,7 +54,12 @@ const App = () => (
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/blog" element={<Blog />} />
-                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/search" element={<Search />} /> {/* New search route */}
+                <Route path="/profile" element={
+                  <AuthGuard>
+                    <UserProfile />
+                  </AuthGuard>
+                } />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
