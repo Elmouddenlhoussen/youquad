@@ -17,12 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMobileView } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import SearchBar from './SearchBar';
 
 const Navbar = () => {
   const location = useLocation();
-  const isMobile = useMobileView();
+  const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, logout } = useUser();
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -80,7 +80,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center">
-              <Logo className="h-10 w-auto" />
+              <Logo />
               <span className="ml-2 text-xl font-bold text-sand-800 dark:text-sand-100">
                 YouQuad
               </span>

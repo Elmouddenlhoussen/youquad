@@ -20,7 +20,7 @@ const searchQuads = (query: string): SearchResult[] => {
     quad.description.toLowerCase().includes(lowercaseQuery) ||
     quad.type.toLowerCase().includes(lowercaseQuery)
   ).map(quad => ({
-    id: quad.id,
+    id: quad.id.toString(), // Convert number to string
     type: 'quad',
     title: quad.name,
     description: quad.description,
@@ -38,7 +38,7 @@ const searchTours = (query: string): SearchResult[] => {
     tour.description.toLowerCase().includes(lowercaseQuery) ||
     tour.difficulty.toLowerCase().includes(lowercaseQuery)
   ).map(tour => ({
-    id: tour.id,
+    id: tour.id.toString(), // Convert number to string
     type: 'tour',
     title: tour.name,
     description: tour.description,

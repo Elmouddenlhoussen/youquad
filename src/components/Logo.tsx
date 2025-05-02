@@ -7,9 +7,10 @@ import { motion } from "framer-motion";
 interface LogoProps {
   size?: 'small' | 'medium' | 'large';
   showTooltip?: boolean;
+  className?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false }) => {
+const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false, className = '' }) => {
   const { theme } = useTheme();
   const [isHovering, setIsHovering] = useState(false);
   
@@ -23,7 +24,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false }) => 
 
   const logoContent = (
     <motion.div 
-      className="flex items-center gap-2 group cursor-pointer"
+      className={`flex items-center gap-2 group cursor-pointer ${className}`}
       onHoverStart={() => setIsHovering(true)}
       onHoverEnd={() => setIsHovering(false)}
       initial={{ opacity: 1 }}
