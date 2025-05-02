@@ -9,9 +9,10 @@ import { quads } from '@/data/quads';
 import QuadCard from '@/components/QuadCard';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import QuadScene from '@/components/3D/QuadScene';
 import { motion } from 'framer-motion';
 import WeatherWidget from '@/components/WeatherWidget';
+import DesertScene from '@/components/3D/DesertScene';
+import QuadShowcase from '@/components/3D/QuadShowcase';
 
 const Index = () => {
   // Display only 3 quads on homepage
@@ -22,7 +23,7 @@ const Index = () => {
       <Hero />
       <Features />
       
-      {/* Quad Bike Showcase Section with decorative background */}
+      {/* Interactive 3D Desert Scene */}
       <motion.section 
         className="section-padding bg-gradient-to-b from-white to-sand-100 dark:from-sand-900 dark:to-sand-800"
         initial={{ opacity: 0 }}
@@ -30,18 +31,25 @@ const Index = () => {
         transition={{ duration: 0.8 }}
       >
         <div className="container-custom">
-          <div className="flex flex-col items-center justify-center">
-            <h2 className="heading-md text-center mb-2">Experience Our Premium Quads</h2>
-            <p className="text-center text-sand-600 dark:text-sand-300 mb-6">
-              Our selection of high-quality quad bikes for your adventure
+          <div className="flex flex-col items-center justify-center mb-12">
+            <h2 className="heading-md text-center mb-2">Experience Morocco in 3D</h2>
+            <p className="text-center text-sand-600 dark:text-sand-300 mb-6 max-w-2xl">
+              Explore the stunning landscapes and thrilling adventures that await you in the magnificent Moroccan desert
             </p>
-            <QuadScene className="rounded-xl shadow-xl overflow-hidden" />
+            <DesertScene className="w-full max-w-4xl shadow-xl" />
           </div>
         </div>
       </motion.section>
       
+      {/* 3D Quad Showcase */}
+      <section className="section-padding bg-white dark:bg-sand-900">
+        <div className="container-custom">
+          <QuadShowcase className="shadow-xl" />
+        </div>
+      </section>
+      
       {/* Featured Quads Section */}
-      <section className="section-padding bg-white dark:bg-sand-800">
+      <section className="section-padding bg-sand-50 dark:bg-sand-800">
         <div className="container-custom">
           <div className="flex justify-between items-center mb-8">
             <h2 className="heading-md">Featured Quads</h2>
@@ -69,7 +77,7 @@ const Index = () => {
       </section>
       
       {/* Weather Section */}
-      <section className="section-padding bg-sand-50 dark:bg-sand-900">
+      <section className="section-padding bg-white dark:bg-sand-900">
         <div className="container-custom">
           <div className="text-center mb-8">
             <h2 className="heading-md">Desert Weather</h2>

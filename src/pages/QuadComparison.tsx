@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -18,14 +18,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import QuadBike3D from '@/components/3D/QuadBike3D';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTheme } from '@/hooks/useTheme';
 
 const QuadComparison = () => {
+  const { theme } = useTheme();
+  const [selectedQuad, setSelectedQuad] = useState(0);
+  
   // Quad comparison data
   const quads = [
     {
       id: 1,
       name: "Standard Single",
       image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256",
+      color: "#DE6547",
       price: 350,
       engineSize: "150cc",
       maxSpeed: "60 km/h",
@@ -44,6 +51,7 @@ const QuadComparison = () => {
       id: 2,
       name: "Adventure Sport",
       image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
+      color: "#2a6d82",
       price: 500,
       engineSize: "250cc",
       maxSpeed: "80 km/h",
@@ -62,6 +70,7 @@ const QuadComparison = () => {
       id: 3,
       name: "Utility Quad",
       image: "https://images.unsplash.com/photo-1526473125627-a94d583649a5",
+      color: "#517a33",
       price: 450,
       engineSize: "300cc",
       maxSpeed: "70 km/h",
@@ -80,6 +89,7 @@ const QuadComparison = () => {
       id: 4,
       name: "Family Tandem",
       image: "https://images.unsplash.com/photo-1610647752706-3bb12232b3ab",
+      color: "#6b4423",
       price: 650,
       engineSize: "350cc",
       maxSpeed: "65 km/h",
@@ -136,6 +146,82 @@ const QuadComparison = () => {
             Compare our different quad models to find the perfect match for your adventure.
           </p>
         </div>
+      </div>
+
+      {/* 3D Model Showcase */}
+      <div className="container-custom py-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16"
+        >
+          <div className="text-center mb-8">
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-sand-800'}`}>Interactive 3D Models</h2>
+            <p className={`${theme === 'dark' ? 'text-sand-400' : 'text-sand-600'} mt-2`}>
+              Rotate, zoom, and explore our quad bikes in 3D
+            </p>
+          </div>
+          
+          <Tabs defaultValue="0" onValueChange={(value) => setSelectedQuad(parseInt(value))}>
+            <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8">
+              {quads.map((quad, index) => (
+                <TabsTrigger 
+                  key={quad.id} 
+                  value={index.toString()}
+                  className={`text-sm md:text-base ${theme === 'dark' ? 'data-[state=active]:bg-terracotta-600 data-[state=active]:text-white' : ''}`}
+                >
+                  {quad.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            
+            <div className={`rounded-lg overflow-hidden border ${theme === 'dark' ? 'border-sand-700' : 'border-sand-300'} bg-white dark:bg-sand-800`}>
+              <div className="md:grid grid-cols-2 gap-4">
+                <div className="md:p-10 p-4 h-[400px] flex items-center justify-center">
+                  <QuadBike3D color={quads[selectedQuad].color} />
+                </div>
+                
+                <div className={`border-t md:border-t-0 md:border-l p-6 flex flex-col justify-center ${theme === 'dark' ? 'border-sand-700' : 'border-sand-300'}`}>
+                  <h3 className={`text-2xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-sand-800'}`}>
+                    {quads[selectedQuad].name}
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span className={`${theme === 'dark' ? 'text-sand-400' : 'text-sand-600'}`}>Price:</span>
+                      <span className={`font-semibold ${theme === 'dark' ? 'text-terracotta-300' : 'text-terracotta-600'}`}>
+                        {quads[selectedQuad].price} MAD/day
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className={`${theme === 'dark' ? 'text-sand-400' : 'text-sand-600'}`}>Engine:</span>
+                      <span className="font-semibold">{quads[selectedQuad].engineSize}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className={`${theme === 'dark' ? 'text-sand-400' : 'text-sand-600'}`}>Max Speed:</span>
+                      <span className="font-semibold">{quads[selectedQuad].maxSpeed}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className={`${theme === 'dark' ? 'text-sand-400' : 'text-sand-600'}`}>Capacity:</span>
+                      <span className="font-semibold">{quads[selectedQuad].capacity} rider{quads[selectedQuad].capacity > 1 ? 's' : ''}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8">
+                    <Link to={`/booking?quad=${quads[selectedQuad].id}`}>
+                      <Button className="w-full bg-terracotta-600 hover:bg-terracotta-700 text-white">
+                        Book This Quad
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tabs>
+        </motion.div>
       </div>
 
       <div className="container-custom py-12">

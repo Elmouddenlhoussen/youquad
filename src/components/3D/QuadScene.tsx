@@ -2,12 +2,19 @@
 import React from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { motion } from 'framer-motion';
+import QuadBike3D from './QuadBike3D';
 
 interface QuadSceneProps {
   className?: string;
+  color?: string;
+  autoRotate?: boolean;
 }
 
-const QuadScene: React.FC<QuadSceneProps> = ({ className }) => {
+const QuadScene: React.FC<QuadSceneProps> = ({ 
+  className = '', 
+  color = '#DE6547', 
+  autoRotate = true 
+}) => {
   const { theme } = useTheme();
   
   return (
@@ -21,33 +28,12 @@ const QuadScene: React.FC<QuadSceneProps> = ({ className }) => {
         </div>
         
         <motion.div 
-          className="relative z-10 w-3/4 h-3/4 flex items-center justify-center"
+          className="relative z-10 w-3/4 h-3/4"
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className={`p-8 border-4 ${theme === 'dark' ? 'border-terracotta-400' : 'border-terracotta-500'} rounded-lg text-center shadow-xl`}>
-            <div className={`w-full h-48 mb-4 ${theme === 'dark' ? 'bg-terracotta-600' : 'bg-terracotta-500'} rounded-md flex items-center justify-center`}>
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-28 w-28 text-white" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 17.5V10a1 1 0 011-1h2a1 1 0 011 1v7.5" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 9h6M17 13h2" />
-              </svg>
-            </div>
-            <p className={`text-xl font-bold ${theme === 'dark' ? 'text-terracotta-300' : 'text-terracotta-600'}`}>
-              Morocco Adventure Quad
-            </p>
-            <p className={`mt-2 text-sm ${theme === 'dark' ? 'text-sand-400' : 'text-sand-500'}`}>
-              Experience the ultimate desert adventure
-            </p>
-          </div>
+          <QuadBike3D color={color} autoRotate={autoRotate} />
         </motion.div>
       </div>
       
