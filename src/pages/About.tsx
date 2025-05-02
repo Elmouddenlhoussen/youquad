@@ -32,8 +32,8 @@ const About = () => {
           </div>
           <div className="relative h-[400px] rounded-lg overflow-hidden shadow-lg">
             <img 
-              src="https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-              alt="YouQuad founder" 
+              src="/lovable-uploads/f4b3a8f0-04e0-4c81-9199-a39e122ca719.png" 
+              alt="Quad biking in the desert" 
               className="w-full h-full object-cover"
             />
           </div>
@@ -87,66 +87,6 @@ const About = () => {
         </div>
 
         <Separator className="my-16" />
-
-        <div className="text-center mb-16">
-          <h2 className="heading-lg mb-6">Meet Our Team</h2>
-          <p className="text-sand-700 text-lg max-w-3xl mx-auto mb-12">
-            Our experienced team of guides and staff are passionate about sharing the beauty of Morocco with you.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="h-64">
-                <img 
-                  src="https://randomuser.me/api/portraits/men/32.jpg" 
-                  alt="Team member" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="font-bold text-sand-800 text-xl">Mohammed Benali</h3>
-                <p className="text-terracotta-600 mb-2">Founder & Lead Guide</p>
-                <p className="text-sand-600">
-                  Born and raised in Ait Melloul, Mohammed has been exploring the desert since childhood and has 15+ years of guiding experience.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="h-64">
-                <img 
-                  src="https://randomuser.me/api/portraits/women/32.jpg" 
-                  alt="Team member" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="font-bold text-sand-800 text-xl">Fatima Ouazzani</h3>
-                <p className="text-terracotta-600 mb-2">Operations Manager</p>
-                <p className="text-sand-600">
-                  With a background in tourism management, Fatima ensures that every aspect of your experience runs smoothly from booking to departure.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="h-64">
-                <img 
-                  src="https://randomuser.me/api/portraits/men/67.jpg" 
-                  alt="Team member" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="font-bold text-sand-800 text-xl">Youssef Amrani</h3>
-                <p className="text-terracotta-600 mb-2">Senior Guide</p>
-                <p className="text-sand-600">
-                  Youssef is an expert on local history and culture, making your adventure both exciting and educational with his insightful commentary.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="bg-sand-100 rounded-lg p-8 text-center">
           <h2 className="text-2xl font-bold text-sand-800 mb-4">Ready to Experience the Adventure?</h2>

@@ -40,32 +40,77 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
     <group ref={bikeRef} position={[0, -1, 0]}>
       {/* Main body of the quad bike */}
       <mesh position={[0, 0.5, 0]} castShadow>
-        <boxGeometry args={[2, 0.5, 1]} />
+        <boxGeometry args={[1.8, 0.5, 1.2]} />
+        <meshStandardMaterial color={color} metalness={0.6} roughness={0.2} />
+      </mesh>
+      
+      {/* Front part */}
+      <mesh position={[0.9, 0.6, 0]} castShadow>
+        <boxGeometry args={[0.6, 0.3, 1]} />
         <meshStandardMaterial color={color} metalness={0.6} roughness={0.2} />
       </mesh>
       
       {/* Seat */}
-      <mesh position={[0, 0.8, 0]} castShadow>
-        <boxGeometry args={[1, 0.3, 0.7]} />
+      <mesh position={[-0.2, 0.8, 0]} castShadow>
+        <boxGeometry args={[1.2, 0.3, 0.8]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
-      {/* Front part (handlebars) */}
-      <mesh position={[1, 0.7, 0]} castShadow>
-        <boxGeometry args={[0.5, 0.2, 0.8]} />
-        <meshStandardMaterial color={color} metalness={0.7} roughness={0.3} />
+      {/* Fuel tank */}
+      <mesh position={[0.4, 0.7, 0]} castShadow>
+        <boxGeometry args={[0.6, 0.2, 0.7]} />
+        <meshStandardMaterial color={color} metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      {/* Handlebars base */}
+      <mesh position={[1.1, 0.8, 0]} castShadow>
+        <boxGeometry args={[0.2, 0.3, 0.2]} />
+        <meshStandardMaterial color="#444" metalness={0.7} roughness={0.3} />
       </mesh>
       
       {/* Handlebars */}
-      <mesh position={[1.25, 0.9, 0]} castShadow>
-        <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
-        <meshStandardMaterial color="#444" metalness={0.8} roughness={0.2} />
+      <mesh position={[1.1, 0.95, 0]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 1, 16]} rotation={[0, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
       </mesh>
       
-      {/* Headlight */}
-      <mesh position={[1.3, 0.6, 0]} castShadow>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial color="#FFFF99" emissive="#FFFF99" emissiveIntensity={1} />
+      {/* Handle grips */}
+      <mesh position={[1.1, 0.95, 0.5]} castShadow>
+        <cylinderGeometry args={[0.06, 0.06, 0.15, 16]} rotation={[0, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#111" roughness={0.9} />
+      </mesh>
+      
+      <mesh position={[1.1, 0.95, -0.5]} castShadow>
+        <cylinderGeometry args={[0.06, 0.06, 0.15, 16]} rotation={[0, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#111" roughness={0.9} />
+      </mesh>
+      
+      {/* Front forks */}
+      <mesh position={[1.1, 0.4, 0.4]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 0.8, 8]} />
+        <meshStandardMaterial color="#777" metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      <mesh position={[1.1, 0.4, -0.4]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 0.8, 8]} />
+        <meshStandardMaterial color="#777" metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      {/* Front rack */}
+      <mesh position={[1.3, 0.7, 0]} castShadow>
+        <boxGeometry args={[0.3, 0.1, 0.8]} />
+        <meshStandardMaterial color="#555" metalness={0.6} roughness={0.4} />
+      </mesh>
+      
+      {/* Headlights */}
+      <mesh position={[1.35, 0.6, 0.3]} castShadow>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshStandardMaterial color="#FFFF99" emissive="#FFFF99" emissiveIntensity={0.5} />
+      </mesh>
+      
+      <mesh position={[1.35, 0.6, -0.3]} castShadow>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshStandardMaterial color="#FFFF99" emissive="#FFFF99" emissiveIntensity={0.5} />
       </mesh>
       
       {/* Wheels */}
@@ -89,23 +134,23 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
-      {/* Wheel tires */}
-      <mesh position={[0.8, 0, 0.6]} castShadow>
+      {/* Tire treads */}
+      <mesh position={[0.8, 0, 0.6]} castShadow rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
-      <mesh position={[0.8, 0, -0.6]} castShadow>
+      <mesh position={[0.8, 0, -0.6]} castShadow rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
-      <mesh position={[-0.8, 0, 0.6]} castShadow>
+      <mesh position={[-0.8, 0, 0.6]} castShadow rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
-      <mesh position={[-0.8, 0, -0.6]} castShadow>
+      <mesh position={[-0.8, 0, -0.6]} castShadow rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
@@ -136,13 +181,64 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
         <boxGeometry args={[0.8, 0.4, 0.6]} />
         <meshStandardMaterial color="#333" metalness={0.7} roughness={0.3} />
       </mesh>
+      
+      {/* Exhaust */}
+      <mesh position={[-1.0, 0.3, 0.3]} castShadow>
+        <cylinderGeometry args={[0.06, 0.08, 0.3, 16]} rotation={[0, Math.PI / 4, 0]} />
+        <meshStandardMaterial color="#777" metalness={0.9} roughness={0.1} />
+      </mesh>
+      
+      {/* Rear rack */}
+      <mesh position={[-1.0, 0.7, 0]} castShadow>
+        <boxGeometry args={[0.4, 0.1, 0.9]} />
+        <meshStandardMaterial color="#555" metalness={0.6} roughness={0.4} />
+      </mesh>
+      
+      {/* Rear light */}
+      <mesh position={[-1.1, 0.5, 0]} castShadow>
+        <boxGeometry args={[0.1, 0.2, 0.6]} />
+        <meshStandardMaterial color="#770000" emissive="#ff0000" emissiveIntensity={0.3} />
+      </mesh>
+      
+      {/* Front mud guards */}
+      <mesh position={[0.8, 0.2, 0.6]} castShadow>
+        <boxGeometry args={[0.3, 0.05, 0.5]} />
+        <meshStandardMaterial color="#444" roughness={0.7} />
+      </mesh>
+      
+      <mesh position={[0.8, 0.2, -0.6]} castShadow>
+        <boxGeometry args={[0.3, 0.05, 0.5]} />
+        <meshStandardMaterial color="#444" roughness={0.7} />
+      </mesh>
+      
+      {/* Rear mud guards */}
+      <mesh position={[-0.8, 0.2, 0.6]} castShadow>
+        <boxGeometry args={[0.3, 0.05, 0.5]} />
+        <meshStandardMaterial color="#444" roughness={0.7} />
+      </mesh>
+      
+      <mesh position={[-0.8, 0.2, -0.6]} castShadow>
+        <boxGeometry args={[0.3, 0.05, 0.5]} />
+        <meshStandardMaterial color="#444" roughness={0.7} />
+      </mesh>
+      
+      {/* Foot rests */}
+      <mesh position={[0, 0.1, 0.6]} castShadow>
+        <boxGeometry args={[0.6, 0.05, 0.25]} />
+        <meshStandardMaterial color="#222" roughness={0.8} />
+      </mesh>
+      
+      <mesh position={[0, 0.1, -0.6]} castShadow>
+        <boxGeometry args={[0.6, 0.05, 0.25]} />
+        <meshStandardMaterial color="#222" roughness={0.8} />
+      </mesh>
     </group>
   );
 };
 
 // The main component that includes the canvas and wrapper
 const QuadBike3D: React.FC<QuadBike3DProps> = ({ 
-  color = '#DE6547', 
+  color = '#0066cc', // Changed to blue like in the reference image
   className = '',
   autoRotate = true
 }) => {
@@ -181,6 +277,7 @@ const QuadBike3D: React.FC<QuadBike3DProps> = ({
           <PerspectiveCamera makeDefault position={[5, 3, 5]} fov={45} />
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1} castShadow />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} />
           
           <QuadBikeModel color={color} autoRotate={autoRotate} />
           
