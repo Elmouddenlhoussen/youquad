@@ -1,10 +1,11 @@
 
 import React, { useRef } from 'react';
-import { Canvas, useFrame, ThreeElements } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, ContactShadows } from '@react-three/drei';
 import { useTheme } from '@/hooks/useTheme';
 import { motion } from 'framer-motion';
 import { Rotate3d } from 'lucide-react';
+import * as THREE from 'three';
 
 interface QuadBike3DProps {
   color?: string;
@@ -14,11 +15,11 @@ interface QuadBike3DProps {
 
 // The actual 3D quad bike model
 const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color, autoRotate }) => {
-  const wheelRef1 = useRef<ThreeElements['mesh']>(null);
-  const wheelRef2 = useRef<ThreeElements['mesh']>(null);
-  const wheelRef3 = useRef<ThreeElements['mesh']>(null);
-  const wheelRef4 = useRef<ThreeElements['mesh']>(null);
-  const bikeRef = useRef<ThreeElements['group']>(null);
+  const wheelRef1 = useRef<THREE.Mesh>(null);
+  const wheelRef2 = useRef<THREE.Mesh>(null);
+  const wheelRef3 = useRef<THREE.Mesh>(null);
+  const wheelRef4 = useRef<THREE.Mesh>(null);
+  const bikeRef = useRef<THREE.Group>(null);
   
   // Animation loop
   useFrame((state, delta) => {
@@ -57,7 +58,7 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
       
       {/* Handlebars */}
       <mesh position={[1.25, 0.9, 0]} castShadow>
-        <cylinderGeometry args={[0.05, 0.05, 1, 16]} rotation={[0, 0, Math.PI / 2]} />
+        <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
         <meshStandardMaterial color="#444" metalness={0.8} roughness={0.2} />
       </mesh>
       
@@ -69,44 +70,71 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
       
       {/* Wheels */}
       <mesh ref={wheelRef1} position={[0.8, 0, 0.6]} castShadow>
-        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} />
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
       <mesh ref={wheelRef2} position={[0.8, 0, -0.6]} castShadow>
-        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} />
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
       <mesh ref={wheelRef3} position={[-0.8, 0, 0.6]} castShadow>
-        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} />
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
       <mesh ref={wheelRef4} position={[-0.8, 0, -0.6]} castShadow>
-        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.4, 0.4, 0.2, 32]} />
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
       {/* Wheel tires */}
       <mesh position={[0.8, 0, 0.6]} castShadow>
-        <torusGeometry args={[0.4, 0.1, 16, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
       <mesh position={[0.8, 0, -0.6]} castShadow>
-        <torusGeometry args={[0.4, 0.1, 16, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
       <mesh position={[-0.8, 0, 0.6]} castShadow>
-        <torusGeometry args={[0.4, 0.1, 16, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
       </mesh>
       
       <mesh position={[-0.8, 0, -0.6]} castShadow>
-        <torusGeometry args={[0.4, 0.1, 16, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <torusGeometry args={[0.4, 0.1, 16, 32]} />
         <meshStandardMaterial color="#222" roughness={0.8} />
+      </mesh>
+
+      {/* Suspension */}
+      <mesh position={[0.8, 0.3, 0.6]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 0.6, 8]} />
+        <meshStandardMaterial color="#555" metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      <mesh position={[0.8, 0.3, -0.6]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 0.6, 8]} />
+        <meshStandardMaterial color="#555" metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      <mesh position={[-0.8, 0.3, 0.6]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 0.6, 8]} />
+        <meshStandardMaterial color="#555" metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      <mesh position={[-0.8, 0.3, -0.6]} castShadow>
+        <cylinderGeometry args={[0.05, 0.05, 0.6, 8]} />
+        <meshStandardMaterial color="#555" metalness={0.8} roughness={0.2} />
+      </mesh>
+
+      {/* Engine */}
+      <mesh position={[0, 0.2, 0]} castShadow>
+        <boxGeometry args={[0.8, 0.4, 0.6]} />
+        <meshStandardMaterial color="#333" metalness={0.7} roughness={0.3} />
       </mesh>
     </group>
   );
