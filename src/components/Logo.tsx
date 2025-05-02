@@ -8,9 +8,15 @@ interface LogoProps {
   size?: 'small' | 'medium' | 'large';
   showTooltip?: boolean;
   className?: string;
+  showText?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false, className = '' }) => {
+const Logo: React.FC<LogoProps> = ({ 
+  size = 'medium', 
+  showTooltip = false, 
+  className = '',
+  showText = true 
+}) => {
   const { theme } = useTheme();
   const [isHovering, setIsHovering] = useState(false);
   
@@ -128,13 +134,15 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', showTooltip = false, class
         </svg>
       </motion.div>
       
-      <motion.span 
-        className={`${textSize} font-bold ${theme === 'dark' ? 'text-white' : 'text-sand-800'} font-playfair`}
-        animate={{ x: isHovering ? [0, 2, 0] : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        YouQuad
-      </motion.span>
+      {showText && (
+        <motion.span 
+          className={`${textSize} font-bold ${theme === 'dark' ? 'text-white' : 'text-sand-800'} font-playfair`}
+          animate={{ x: isHovering ? [0, 2, 0] : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          YouQuad
+        </motion.span>
+      )}
     </motion.div>
   );
 

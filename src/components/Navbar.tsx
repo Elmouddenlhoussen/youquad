@@ -80,7 +80,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center">
-              <Logo />
+              <Logo showText={false} />
               <span className="ml-2 text-xl font-bold text-sand-800 dark:text-sand-100">
                 YouQuad
               </span>
