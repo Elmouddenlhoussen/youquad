@@ -1,19 +1,20 @@
 
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useUser, UserProfile, BookingHistory } from '@/contexts/UserContext';
+import { useUser } from '@/contexts/UserContext';
+import type { UserProfile as UserProfileType, BookingHistory } from '@/contexts/UserContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { edit, user, mail, phone, calendar, logOut, clock } from 'lucide-react';
+import { Edit, User, Mail, Phone, Calendar, LogOut, Clock } from 'lucide-react';
 import { formatCurrency } from '@/services/paymentService';
 
 const UserProfile = () => {
   const { user, logout, updateProfile, isLoading } = useUser();
-  const [formData, setFormData] = useState<Partial<UserProfile>>(
+  const [formData, setFormData] = useState<Partial<UserProfileType>>(
     user ? { name: user.name, email: user.email, phone: user.phone } : {}
   );
   const [isEditing, setIsEditing] = useState(false);
@@ -82,7 +83,7 @@ const UserProfile = () => {
                   className="border-terracotta-300 text-terracotta-600 hover:bg-terracotta-50 dark:border-terracotta-700 dark:text-terracotta-400 dark:hover:bg-terracotta-900/30 w-full"
                   onClick={() => logout()}
                 >
-                  <logOut className="w-4 h-4 mr-2" />
+                  <LogOut className="w-4 h-4 mr-2" />
                   Sign Out
                 </Button>
               </div>
@@ -113,7 +114,7 @@ const UserProfile = () => {
                       className="border-terracotta-300 text-terracotta-600 hover:bg-terracotta-50 dark:border-terracotta-700 dark:text-terracotta-400 dark:hover:bg-terracotta-900/30"
                       onClick={() => setIsEditing(true)}
                     >
-                      <edit className="w-4 h-4 mr-2" />
+                      <Edit className="w-4 h-4 mr-2" />
                       Edit Profile
                     </Button>
                   )}
@@ -124,7 +125,7 @@ const UserProfile = () => {
                     <div className="space-y-2">
                       <Label htmlFor="name">Full Name</Label>
                       <div className="relative">
-                        <user className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                        <User className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                         <Input
                           id="name"
                           placeholder="John Doe"
@@ -139,7 +140,7 @@ const UserProfile = () => {
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
                       <div className="relative">
-                        <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                         <Input
                           id="email"
                           type="email"
@@ -155,7 +156,7 @@ const UserProfile = () => {
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number</Label>
                       <div className="relative">
-                        <phone className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                        <Phone className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                         <Input
                           id="phone"
                           placeholder="+1 (234) 567-8901"
@@ -217,11 +218,11 @@ const UserProfile = () => {
                             <h3 className="font-bold text-lg">{booking.tourName}</h3>
                             <div className="flex items-center text-sand-500 dark:text-sand-400 space-x-4">
                               <div className="flex items-center">
-                                <calendar className="w-4 h-4 mr-1" />
+                                <Calendar className="w-4 h-4 mr-1" />
                                 <span>{new Date(booking.date).toLocaleDateString()}</span>
                               </div>
                               <div className="flex items-center">
-                                <clock className="w-4 h-4 mr-1" />
+                                <Clock className="w-4 h-4 mr-1" />
                                 {renderBookingStatus(booking.status)}
                               </div>
                             </div>

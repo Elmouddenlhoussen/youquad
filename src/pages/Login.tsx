@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { user, mail, lock, userPlus } from 'lucide-react';
+import { User, Mail, Lock, UserPlus } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <div className="relative">
-                      <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="email"
                         type="email"
@@ -131,7 +131,7 @@ const Login = () => {
                       </button>
                     </div>
                     <div className="relative">
-                      <lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="password"
                         type="password"
@@ -180,7 +180,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="register-name">Full Name</Label>
                     <div className="relative">
-                      <user className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <User className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="register-name"
                         placeholder="John Doe"
@@ -195,7 +195,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="register-email">Email</Label>
                     <div className="relative">
-                      <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="register-email"
                         type="email"
@@ -211,7 +211,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="register-password">Password</Label>
                     <div className="relative">
-                      <lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="register-password"
                         type="password"
@@ -227,7 +227,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="register-confirm">Confirm Password</Label>
                     <div className="relative">
-                      <lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="register-confirm"
                         type="password"
@@ -276,7 +276,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="reset-email">Email</Label>
                     <div className="relative">
-                      <mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-sand-500" />
                       <Input
                         id="reset-email"
                         type="email"
