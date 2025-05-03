@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -36,25 +37,25 @@ const galleryData = {
   quads: [
     {
       id: 5,
-      src: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256",
+      src: "https://images.unsplash.com/photo-1587147081330-e9f61671addc",
       alt: "Sport quad bike",
       caption: "High-performance sport quad"
     },
     {
       id: 6,
-      src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
+      src: "https://images.unsplash.com/photo-1578167635648-df04b80ca32a",
       alt: "Utility quad bike",
       caption: "Powerful utility quad for any terrain"
     },
     {
       id: 7,
-      src: "https://images.unsplash.com/photo-1526473125627-a94d583649a5",
+      src: "https://images.unsplash.com/photo-1590212151753-237af0b60b87",
       alt: "Racing quad bike",
       caption: "Professional racing quad"
     },
     {
       id: 8,
-      src: "https://images.unsplash.com/photo-1610647752706-3bb12232b3ab",
+      src: "https://images.unsplash.com/photo-1612721047293-b7ee7c56a1c8",
       alt: "Family quad bike",
       caption: "Family-friendly quad for all ages"
     }
