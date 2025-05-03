@@ -69,19 +69,19 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
       </mesh>
       
       {/* Handlebars */}
-      <mesh position={[1.1, 0.95, 0]} castShadow>
-        <cylinderGeometry args={[0.05, 0.05, 1, 16]} rotation={[0, 0, Math.PI / 2]} />
+      <mesh position={[1.1, 0.95, 0]} castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.05, 0.05, 1, 16]} />
         <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
       </mesh>
       
       {/* Handle grips */}
-      <mesh position={[1.1, 0.95, 0.5]} castShadow>
-        <cylinderGeometry args={[0.06, 0.06, 0.15, 16]} rotation={[0, 0, Math.PI / 2]} />
+      <mesh position={[1.1, 0.95, 0.5]} castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.15, 16]} />
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
-      <mesh position={[1.1, 0.95, -0.5]} castShadow>
-        <cylinderGeometry args={[0.06, 0.06, 0.15, 16]} rotation={[0, 0, Math.PI / 2]} />
+      <mesh position={[1.1, 0.95, -0.5]} castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.15, 16]} />
         <meshStandardMaterial color="#111" roughness={0.9} />
       </mesh>
       
@@ -183,8 +183,8 @@ const QuadBikeModel: React.FC<{ color: string; autoRotate: boolean }> = ({ color
       </mesh>
       
       {/* Exhaust */}
-      <mesh position={[-1.0, 0.3, 0.3]} castShadow>
-        <cylinderGeometry args={[0.06, 0.08, 0.3, 16]} rotation={[0, Math.PI / 4, 0]} />
+      <mesh position={[-1.0, 0.3, 0.3]} castShadow rotation={[0, Math.PI / 4, 0]}>
+        <cylinderGeometry args={[0.06, 0.08, 0.3, 16]} />
         <meshStandardMaterial color="#777" metalness={0.9} roughness={0.1} />
       </mesh>
       
