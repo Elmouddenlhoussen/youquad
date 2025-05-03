@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, ThumbsUp, MessageSquare } from 'lucide-react';
@@ -173,7 +172,7 @@ const StarRating: React.FC<{ rating: number; size?: number; editable?: boolean; 
         >
           <Star
             fill={(hoverRating || rating) >= star ? 'currentColor' : 'none'}
-            className={`h-${size/4} w-${size/4} ${(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+            className={`h-${Math.floor(size/4)} w-${Math.floor(size/4)} ${(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
           />
         </div>
       ))}
