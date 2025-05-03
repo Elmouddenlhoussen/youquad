@@ -172,7 +172,7 @@ const StarRating: React.FC<{ rating: number; size?: number; editable?: boolean; 
         >
           <Star
             fill={(hoverRating || rating) >= star ? 'currentColor' : 'none'}
-            className={`h-${Math.floor(size/4)} w-${Math.floor(size/4)} ${(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+            className={`${size === 16 ? 'h-4 w-4' : size === 24 ? 'h-6 w-6' : 'h-5 w-5'} ${(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
           />
         </div>
       ))}
