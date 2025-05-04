@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUser } from '@/contexts/UserContext';
@@ -9,13 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Edit, User, Mail, Phone, Calendar, LogOut, Clock } from 'lucide-react';
+import { Edit, User, Mail, Phone, Calendar, LogOut, Clock, Upload } from 'lucide-react';
 import { formatCurrency } from '@/services/paymentService';
 
 const UserProfile = () => {
   const { user, logout, updateProfile, isLoading } = useUser();
   const [formData, setFormData] = useState<Partial<UserProfileType>>(
-    user ? { name: user.name, email: user.email, phone: user.phone } : {}
+    user ? { name: user.name, email: user.email, phone: user.phone, avatar: user.avatar } : {}
   );
   const [isEditing, setIsEditing] = useState(false);
   
@@ -29,6 +28,19 @@ const UserProfile = () => {
     const success = await updateProfile(formData);
     if (success) {
       setIsEditing(false);
+    }
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // In a real app, you would upload the file to a server and get a URL back
+      // For this demo, we'll use a data URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({...formData, avatar: reader.result as string});
+      };
+      reader.readAsDataURL(file);
     }
   };
   
@@ -65,12 +77,33 @@ const UserProfile = () => {
           <Card className="border-sand-200 dark:border-sand-700">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center space-y-4">
-                <Avatar className="h-24 w-24">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="text-xl bg-terracotta-100 text-terracotta-700 dark:bg-terracotta-900 dark:text-terracotta-300">
-                    {getInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="relative">
+                  <Avatar className="h-24 w-24">
+                    <AvatarImage src={formData.avatar || user.avatar} alt={user.name} />
+                    <AvatarFallback className="text-xl bg-terracotta-100 text-terracotta-700 dark:bg-terracotta-900 dark:text-terracotta-300">
+                      {getInitials(user.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  
+                  {isEditing && (
+                    <div className="absolute bottom-0 right-0">
+                      <Label 
+                        htmlFor="avatar-upload" 
+                        className="flex items-center justify-center w-8 h-8 rounded-full bg-terracotta-600 text-white cursor-pointer hover:bg-terracotta-700"
+                      >
+                        <Upload className="w-4 h-4" />
+                        <span className="sr-only">Change avatar</span>
+                      </Label>
+                      <Input 
+                        id="avatar-upload" 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={handleAvatarChange}
+                      />
+                    </div>
+                  )}
+                </div>
                 
                 <div className="text-center">
                   <h2 className="text-xl font-bold">{user.name}</h2>

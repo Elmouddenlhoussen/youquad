@@ -6,12 +6,15 @@ import Testimonials from '@/components/Testimonials';
 import FAQSection from '@/components/FAQSection';
 import CallToAction from '@/components/CallToAction';
 import AdminPanel from '@/components/AdminPanel';
+import { useUser } from '@/contexts/UserContext';
 
 const Index = () => {
+  const { user } = useUser();
+  
   return (
     <>
       <Hero />
-      <AdminPanel />
+      {user && user.role === 'admin' && <AdminPanel />}
       <Features />
       <Testimonials />
       <FAQSection />

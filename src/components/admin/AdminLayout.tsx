@@ -33,7 +33,7 @@ interface NavItem {
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const { theme } = useTheme();
-  const { logout } = useUser();
+  const { logout, user, updateProfile } = useUser();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -63,7 +63,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <div className="hidden md:flex md:w-64 md:flex-col">
         <div className="flex flex-col flex-grow pt-5 overflow-y-auto bg-white dark:bg-sand-800 border-r border-gray-200 dark:border-sand-700">
           <div className="flex items-center flex-shrink-0 px-4">
-            <h1 className="text-xl font-bold text-terracotta-600">Morocco Quads Admin</h1>
+            <h1 className="text-xl font-bold text-terracotta-600">YouQuad Admin</h1>
           </div>
           <div className="mt-8 flex flex-col flex-1">
             <nav className="flex-1 px-2 space-y-1">
@@ -122,7 +122,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetContent side="left" className="w-[250px]">
           <SheetHeader>
-            <SheetTitle>Morocco Quads Admin</SheetTitle>
+            <SheetTitle>YouQuad Admin</SheetTitle>
           </SheetHeader>
           <div className="mt-8 flex flex-col">
             <nav className="flex-1 px-2 space-y-1">
@@ -158,7 +158,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <header className="bg-white dark:bg-sand-800 shadow-sm">
           <div className="px-4 py-4 flex items-center justify-between">
             <h2 className="text-lg font-medium text-gray-900 dark:text-white">
-              Admin Dashboard
+              YouQuad Admin Dashboard
             </h2>
             <div className="ml-4 flex items-center md:ml-6">
               {/* User profile dropdown could go here */}
