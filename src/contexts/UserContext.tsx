@@ -10,6 +10,7 @@ export interface UserProfile {
   email: string;
   avatar?: string;
   phone?: string;
+  role?: string;
   bookings?: BookingHistory[];
 }
 
@@ -40,6 +41,7 @@ const MOCK_USERS = [
     password: 'password123', // In a real app, this would be hashed
     avatar: 'https://i.pravatar.cc/150?u=demo',
     phone: '+212 612 345 678',
+    role: 'user', // Add role property
     bookings: [
       {
         id: 'b1',
@@ -56,6 +58,17 @@ const MOCK_USERS = [
         status: 'completed' as const
       }
     ]
+  },
+  // Add an admin user for testing
+  {
+    id: '2',
+    name: 'Admin User',
+    email: 'admin@example.com',
+    password: 'admin123', // In a real app, this would be hashed
+    avatar: 'https://i.pravatar.cc/150?u=admin',
+    phone: '+212 612 999 888',
+    role: 'admin',
+    bookings: []
   }
 ];
 
