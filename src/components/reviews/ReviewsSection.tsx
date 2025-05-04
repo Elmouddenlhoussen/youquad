@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, ThumbsUp, MessageSquare } from 'lucide-react';
@@ -123,7 +122,7 @@ const sampleReviews: Review[] = [
           name: 'Morocco Adventures Team',
           isStaff: true
         },
-        comment: 'Thank you for your feedback, Michael. We appreciate your honest review and will work on limiting our group sizes and improving our safety briefings. Customer safety is our top priority, and we'll make sure to address these issues for future tours.',
+        comment: 'Thank you for your feedback, Michael. We appreciate your honest review and will work on limiting our group sizes and improving our safety briefings. Customer safety is our top priority, and we\'ll make sure to address these issues for future tours.',
         date: '2024-03-16'
       }
     ]
