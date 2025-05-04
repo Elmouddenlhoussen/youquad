@@ -19,7 +19,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { useTheme } from '@/hooks/useTheme';
-import { toast } from 'sonner';
+import { useUser } from '@/contexts/UserContext';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -33,6 +33,7 @@ interface NavItem {
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const { theme } = useTheme();
+  const { logout } = useUser();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -52,8 +53,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   };
 
   const handleLogout = () => {
-    // Implement logout functionality
-    toast.success('Logged out successfully');
+    logout();
     navigate('/login');
   };
 
