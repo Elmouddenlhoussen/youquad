@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, ThumbsUp, MessageSquare } from 'lucide-react';
@@ -152,6 +153,12 @@ const StarRating: React.FC<{ rating: number; size?: number; editable?: boolean; 
 }) => {
   const [hoverRating, setHoverRating] = useState(0);
   
+  const getSizeClasses = (size: number) => {
+    if (size === 16) return 'h-4 w-4';
+    if (size === 24) return 'h-6 w-6';
+    return 'h-5 w-5';
+  };
+  
   return (
     <div className="flex">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -172,7 +179,7 @@ const StarRating: React.FC<{ rating: number; size?: number; editable?: boolean; 
         >
           <Star
             fill={(hoverRating || rating) >= star ? 'currentColor' : 'none'}
-            className={`${size === 16 ? 'h-4 w-4' : size === 24 ? 'h-6 w-6' : 'h-5 w-5'} ${(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+            className={`${getSizeClasses(size)} ${(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
           />
         </div>
       ))}
